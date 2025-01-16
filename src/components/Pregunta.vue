@@ -1,9 +1,12 @@
 <template>
-    <img :src="imagen" alt="No se puede ver">
-    <input v-model="pregunta" type="text" placeholder="Hazme una Pregunta">
-    <p>Recuerda que cuando finalices tu pregunta dar un ?</p>
-    <h1>{{ pregunta }}</h1>
-    <h2>{{ respuesta }}</h2>
+     <img :src="imagen" alt="No se puede ver">
+    <div class="seccion-pregunta">
+        <input v-model="pregunta" type="text" placeholder="Hazme una Pregunta">
+        <p>Recuerda que cuando finalices tu pregunta dar un ?</p>
+        <h1>{{ pregunta }}</h1>
+        <h2>{{ respuesta }}</h2>
+    </div>
+
 </template>
 
 <script>
@@ -21,23 +24,52 @@ export default {
             console.log(oldValue);
             if (value.includes('?')) {
                 //llamar a ala API para obtener el si y el no
-                this. fachada();
+                this.fachada();
             }
         }
     },
-    methods:{
-        async llamarAPI(){ //metodo asincrono porel await
+    methods: {
+        async llamarAPI() { //metodo asincrono porel await
             console.log('AQUI LLAMO AL API');
-            const data = await fetch('https://yesno.wtf/api').then(respuesta=>respuesta.json()); 
+            const data = await fetch('https://yesno.wtf/api').then(respuesta => respuesta.json());
             this.respuesta = data.answer;
             this.imagen = data.image;
             console.log(data);
         },
-        async fachada(){  //metodo asincrono por el await
+        async fachada() {  //metodo asincrono por el await
             await this.llamarAPI();
         }
     }
 }
 </script>
 
-<style></style>
+<style>
+img {
+    max-height: 100%;
+    height: 100vh;
+    max-width: 100%;
+    width: 100vw;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}
+.seccion-pregunta{
+    position:relative; 
+    text-align: center;
+}
+h1,p,h2{
+    color: white ;   
+}
+p{
+    font-size: 30px;
+}
+
+input {
+margin-top: 35%;
+width: 260px;
+padding: 15px 30px;
+border: none;
+border-radius: 7px;
+font-size: 18px;
+}
+</style>
